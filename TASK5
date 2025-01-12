@@ -1,1 +1,94 @@
 
+ons; 
+using System.Collections.Generic; 
+using UnityEngine; 
+using System; 
+using UnityEngine; 
+ 
+public class AdventureGame : MonoBehaviour 
+{ 
+    public int health = 50; 
+    public int energy = 30; 
+    public bool hasWeapon = false; 
+    public bool isEnemyVisible = true;  
+    public string enemyType = "Goblin"; 
+    public int enemyHealth = 70;  
+ 
+    void Start() 
+    { 
+        AttackEnemy(); 
+        EscapeEnemy(); 
+        SearchForResources(); 
+    } 
+    void AttackEnemy() 
+    { 
+        if (hasWeapon && energy > 20) 
+        { 
+            int damage = 0; 
+ 
+            switch (enemyType) 
+            { 
+                case "Goblin": 
+                    damage = 30; 
+                    break; 
+                case "Orc": 
+                    damage = 20; 
+                    break; 
+                case "Dragon": 
+                    damage = 10; 
+                    break; 
+                default: 
+                    Debug.Log("Unknown enemy type!"); 
+                    return; 
+            } 
+ 
+            enemyHealth -= damage; 
+            Debug.Log($"Attacked {enemyType} for {damage} damage! Enemy health: {enemyHealth}"); 
+ 
+            if (enemyHealth <= 0) 
+            { 
+                Debug.Log("Enemy defeated!"); 
+            } 
+        } 
+        else if (!hasWeapon) 
+        { 
+            Debug.Log("You cannot attack without a weapon!"); 
+        } 
+        else 
+        { 
+            Debug.Log("Not enough energy to attack!"); 
+        } 
+    } 
+ 
+    void EscapeEnemy() 
+    { 
+        if (isEnemyVisible && energy < 20) 
+        { 
+            if (enemyType == "Dragon") 
+            { 
+                Debug.Log("You cannot escape from the Dragon!"); 
+            } 
+            else 
+            { 
+                Debug.Log("You escaped successfully!"); 
+            } 
+        } 
+        else 
+        { 
+            Debug.Log("You are safe, no need to escape."); 
+        } 
+    } 
+ 
+    void SearchForResources() 
+    { 
+        if (!isEnemyVisible && energy < 10) 
+        { 
+            energy += 20; 
+            Debug.Log("You found an energy potion! Energy increased to " + energy); 
+        } 
+        else 
+        { 
+            Debug.Log("You searched for resources but found nothing."); 
+        } 
+    } 
+}
